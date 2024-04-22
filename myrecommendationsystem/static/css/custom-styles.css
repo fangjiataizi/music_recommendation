@@ -1,0 +1,118 @@
+/* custom-styles.css */
+body {
+    background-color: #f7f7f7;
+    font-family: 'Microsoft YaHei', sans-serif;
+    color: #333;
+}
+
+header.user-information {
+    background-color: #fff;
+    padding: 10px 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 2em; /* 调整字体大小 */
+    color: #d33; /* 调整字体颜色 */
+    text-decoration: none;
+    margin-right: auto; /* 确保左对齐 */
+}
+
+.user-links {
+    display: flex;
+    align-items: center;
+}
+
+.user-links a {
+    color: #333;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+.user-links a:hover {
+    text-decoration: underline;
+}
+
+.contents {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.juno-track-information {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#recommendation-results {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #d33;
+    border-left: 5px solid #d33;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    background-color: #d33;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #b22;
+}
+
+.list-unstyled {
+    list-style: none;
+    padding: 0;
+}
+
+.list-unstyled li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.list-unstyled li:last-child {
+    border-bottom: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .contents {
+        width: 100%;
+        margin: 10px auto;
+    }
+}

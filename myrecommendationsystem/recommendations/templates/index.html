@@ -1,0 +1,91 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}个性化音乐推荐{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- 右侧区域：推荐列表 -->
+    <div class="col-md-4">
+        <div class="juno-track-information p-3 bg-white rounded shadow-sm mb-4">
+            <h2>输入听歌历史</h2>
+            <form id="song-history-form" method="post" action="{% url 'generate_recommendations' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="song-history">输入你喜欢的歌曲（用逗号分隔）:</label>
+                    <input type="text" class="form-control" id="song-history" name="song_history" placeholder="歌曲1, 歌曲2, 歌曲3">
+                </div>
+                <button type="submit" class="btn btn-primary">生成推荐</button>
+            </form>
+        </div>
+        <!-- 推荐结果区域 -->
+        <div id="recommendation-results" class="p-3 bg-white rounded shadow-sm">
+            <h2>推荐歌曲</h2>
+            <ul class="list-unstyled" id="recommendation-list">
+                <!-- 推荐歌曲将通过JavaScript动态插入 -->
+            </ul>
+        </div>
+    </div>
+    <!-- ... 其他内容 ... -->
+</div>
+{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/custom-styles.css' %}">
+<style>
+    /* 在这里添加自定义的CSS样式 */
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('song-history-form');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const songHistoryInput = document.getElementById('song-history').value;
+        const songHistoryData = { 'song_history': songHistoryInput.split(',').map(s => s.trim()) };
+
+        fetch("{% url 'generate_recommendations' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(songHistoryData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+    const recommendationList = document.getElementById('recommendation-list');
+    recommendationList.innerHTML = ''; // 清空当前推荐列表
+    data.recommended_songs.forEach(song => {
+        const listItem = document.createElement('li');
+
+        // 创建歌曲信息文本
+        const songText = document.createTextNode(song.title + ' by ' + song.artist);
+        listItem.appendChild(songText);
+
+        // 创建播放按钮
+        const playButton = document.createElement('button');
+        playButton.textContent = '播放';
+        playButton.className = 'btn btn-primary btn-sm ml-2'; // 添加Bootstrap样式类
+        playButton.onclick = function() {
+            window.open(song.url, '_blank'); // 在新标签页中打开歌曲的URL
+        };
+
+        // 将播放按钮添加到列表项中
+        listItem.appendChild(playButton);
+
+        // 将列表项添加到推荐列表中
+        recommendationList.appendChild(listItem);
+    });
+})
+        .catch(error => console.error('Error:', error));
+    });
+});
+</script>
+{% endblock %}
